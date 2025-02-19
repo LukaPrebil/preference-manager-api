@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "../users/User.entity";
 
 export const enum ChangeEventType {
@@ -23,6 +23,9 @@ export class ChangeEvent {
 
   @Column({ type: "json" })
   payload: Record<string, unknown>;
+
+  @CreateDateColumn()
+  created!: Date;
 }
 
 export interface CreateChangeEventDto {
