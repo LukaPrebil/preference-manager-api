@@ -1,10 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { ChangeEvent } from './ChangeEvent.entity';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn("uuid")
-  id: number;
+  id: string;
 
   @Column({ unique: true })
   email: string;
+
+  @OneToMany(() => ChangeEvent, (changeEvent) => changeEvent.user)
+  changeEvents: ChangeEvent[];
 }
