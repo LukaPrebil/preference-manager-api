@@ -19,9 +19,12 @@ export class ChangeEvent {
   @Column()
   event_type: ChangeEventType;
 
-  @Column({ type: "boolean", nullable: true })
-  email_enabled: boolean;
+  @Column({ type: "json", nullable: false })
+  payload: Record<string, unknown>;
+}
 
-  @Column({ type: "boolean", nullable: true })
-  sms_enabled: boolean;
+export interface CreateChangeEventDto {
+  userId: string;
+  eventType: ChangeEventType;
+  payload: Record<string, unknown>;
 }
