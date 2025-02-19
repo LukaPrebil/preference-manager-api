@@ -5,6 +5,8 @@ export const enum ChangeEventType {
   NOTIFICATION_PREFERENCE_CHANGE = "NOTIFICATION_PREFERENCE_CHANGE",
 }
 
+export type SubscriptionType = "email_notifications" | "sms_notifications";
+
 @Entity()
 export class ChangeEvent {
   @PrimaryGeneratedColumn()
@@ -17,9 +19,9 @@ export class ChangeEvent {
   user: User;
 
   @Column()
-  event_type: ChangeEventType;
+  event_type: ChangeEventType; // This allows us to extend this table to track other events in the future
 
-  @Column({ type: "json", nullable: false })
+  @Column({ type: "json" })
   payload: Record<string, unknown>;
 }
 
