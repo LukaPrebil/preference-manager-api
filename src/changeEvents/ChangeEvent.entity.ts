@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { User } from "./User.entity";
+import { User } from "../users/User.entity";
 
 export const enum ChangeEventType {
   NOTIFICATION_PREFERENCE_CHANGE = "NOTIFICATION_PREFERENCE_CHANGE",
