@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { ChangeEvent } from "./ChangeEvent.entity";
+import { ChangeEvent } from "../changeEvents/ChangeEvent.entity";
 
 @Entity()
 export class User {
@@ -14,4 +14,8 @@ export class User {
     (changeEvent) => changeEvent.user,
   )
   changeEvents: ChangeEvent[];
+}
+
+export class CreateUserDto {
+  email: string;
 }
