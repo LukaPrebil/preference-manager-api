@@ -1,4 +1,12 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import { ChangeEvent } from "../changeEvents/ChangeEvent.entity";
 import { SubscriptionState } from "src/changeEvents/subscriptionEvent.helpers";
 
@@ -15,6 +23,16 @@ export class User {
     (changeEvent) => changeEvent.user,
   )
   changeEvents: ChangeEvent[];
+
+  @CreateDateColumn()
+  created!: Date;
+
+  @UpdateDateColumn()
+  updated!: Date;
+
+  // Add this column to your entity!
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }
 
 export interface CreateUserDto {
