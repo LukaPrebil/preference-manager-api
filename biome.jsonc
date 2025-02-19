@@ -23,12 +23,18 @@
       "recommended": true,
       "suspicious": {
         "noConstEnum": "off"
+      },
+      "style": {
+        "useImportType": "off" // Disabled because it breaks DI
       }
     }
   },
   "javascript": {
     "formatter": {
       "quoteStyle": "double"
+    },
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
     }
   }
 }
