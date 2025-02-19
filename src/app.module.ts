@@ -7,6 +7,7 @@ import { connectionConfig } from "./ormconfig";
 import { User } from "./users/User.entity";
 import { ChangeEvent } from "./changeEvents/ChangeEvent.entity";
 import { UserModule } from "./users/user.module";
+import { ChangeEventModule } from "./changeEvents/changeEvent.module";
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { UserModule } from "./users/user.module";
       entities: [User, ChangeEvent],
     }),
     UserModule,
+    ChangeEventModule,
   ],
   controllers: [AppController],
   providers: [AppService],
