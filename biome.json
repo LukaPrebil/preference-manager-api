@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": []
+    "ignore": ["./src/migrations"]
   },
   "formatter": {
     "enabled": true,
@@ -20,7 +20,10 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "suspicious": {
+        "noConstEnum": "off"
+      }
     }
   },
   "javascript": {
