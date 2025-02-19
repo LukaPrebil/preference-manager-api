@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { User, CreateUserDto, UserDto } from "./User.entity";
 
@@ -13,12 +13,13 @@ export class UsersController {
   }
 
   @Post("create")
-  async createUser(@Body() createUserDto: CreateUserDto): Promise<User> { // TODO return DTO
+  async createUser(@Body() createUserDto: CreateUserDto): Promise<User> {
+    // TODO return DTO
     return await this.userService.createUser(createUserDto.email);
   }
 
   @Delete("delete")
-  async deleteUser(@Param("id") id: string): Promise<void> {
-    throw new HttpException("Not implemented", HttpStatus.NOT_IMPLEMENTED);
+  async deleteUser(@Param("id") id: string): Promise<string> {
+    return await this.userService.softDeleteUser(id);
   }
 }
