@@ -9,9 +9,6 @@ export class UsersController {
   @Get("by-id") // 1aca4117-3ab0-4dd6-8082-4717d4fface8
   async getUserById(@Param("id") id: string): Promise<UserDto> {
     const user = await this.userService.getUserById(id);
-    if (!user) {
-      throw new HttpException("User not found", HttpStatus.NOT_FOUND); // TODO in service
-    }
     return user;
   }
 

@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User, UserDto } from "./User.entity";
 import type { Repository } from "typeorm";
@@ -15,7 +15,7 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  async getUserById(id: string): Promise<UserDto | null> {
+  async getUserById(id: string): Promise<UserDto> {
     const user = await this.userRepository.findOne({
       where: {
         id,
@@ -23,8 +23,8 @@ export class UserService {
       relations: ["changeEvents"],
     });
 
-    if (!user) {
-      return null;
+    if (!user || user.deletedAt) {
+      throw new HttpException("User not found", HttpStatus.NOT_FOUND);
     }
 
     const consents = mergeSubscriptionConsentChangeEvents(
@@ -40,10 +40,22 @@ export class UserService {
     };
   }
 
-  createUser(email: string): Promise<User> {
+  async createUser(email: string): Promise<User> { // TODO DTO
+    const userExists = await this.userRepository.exists({ where: { email } });
+    if (userExists) {
+      throw new HttpException("User already exists", HttpStatus.UNPROCESSABLE_ENTITY);
+    }
     const user = new User();
     user.email = email;
     user.changeEvents = [];
     return this.userRepository.save(user);
+  }
+
+  async softDeleteUser(id: string): Promise<string> {
+    await this.userRepository.update(id, {
+      email: "",
+      deletedAt: new Date(),
+    });
+    return id;
   }
 }
