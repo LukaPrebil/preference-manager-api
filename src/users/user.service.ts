@@ -1,22 +1,43 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { User } from "./User.entity";
+import { User, UserDto } from "./User.entity";
 import type { Repository } from "typeorm";
+import {
+  mergeSubscriptionConsentChangeEvents,
+  SubscriptionChangeEvent,
+} from "src/changeEvents/subscriptionEvent.helpers";
+import { ChangeEventType } from "src/changeEvents/ChangeEvent.entity";
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User) 
-    private userRepository: Repository<User>
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
   ) {}
 
-  getUserById(id: string): Promise<User | null> {
-    return this.userRepository.findOne({
+  async getUserById(id: string): Promise<UserDto | null> {
+    const user = await this.userRepository.findOne({
       where: {
         id,
       },
       relations: ["changeEvents"],
     });
+
+    if (!user) {
+      return null;
+    }
+
+    const consents = mergeSubscriptionConsentChangeEvents(
+      user.changeEvents.filter(
+        (changeEvent) => changeEvent.event_type === ChangeEventType.NOTIFICATION_PREFERENCE_CHANGE,
+      ) as SubscriptionChangeEvent[],
+    );
+
+    return {
+      id: user.id,
+      email: user.email,
+      consents,
+    };
   }
 
   createUser(email: string): Promise<User> {
