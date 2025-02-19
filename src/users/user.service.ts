@@ -1,12 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { User, UserDto } from "./User.entity";
 import type { Repository } from "typeorm";
-import {
-  mergeSubscriptionConsentChangeEvents,
-  SubscriptionChangeEvent,
-} from "src/changeEvents/subscriptionEvent.helpers";
-import { ChangeEventType } from "src/changeEvents/ChangeEvent.entity";
+import { User, UserDto, hashEmail } from "./User.entity";
 
 @Injectable()
 export class UserService {
@@ -27,35 +22,61 @@ export class UserService {
       throw new HttpException("User not found", HttpStatus.NOT_FOUND);
     }
 
-    const consents = mergeSubscriptionConsentChangeEvents(
-      user.changeEvents.filter(
-        (changeEvent) => changeEvent.event_type === ChangeEventType.NOTIFICATION_PREFERENCE_CHANGE,
-      ) as SubscriptionChangeEvent[],
-    );
-
-    return {
-      id: user.id,
-      email: user.email,
-      consents,
-    };
+    return user.toDTO();
   }
 
-  async createUser(email: string): Promise<User> { // TODO DTO
+  async createUser(email: string): Promise<UserDto> {
+    // TODO DTO
+    await this.bailIfUserExists(email);
+
+    const deletedUser = await this.checkDeletedUser(email);
+    if (deletedUser) {
+      return await this.restoreUser(email, deletedUser);
+    }
+
+    return await this.createNewUser(email);
+  }
+
+  async softDeleteUser(id: string): Promise<string> {
+    const user = await this.userRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new HttpException("User not found", HttpStatus.NOT_FOUND);
+    }
+    await this.userRepository.update(id, {
+      email: user.hashEmail(),
+      deletedAt: new Date(),
+    });
+
+    console.log("Soft deleted user with id: ", id);
+    return id;
+  }
+
+  private async bailIfUserExists(email: string) {
     const userExists = await this.userRepository.exists({ where: { email } });
     if (userExists) {
       throw new HttpException("User already exists", HttpStatus.UNPROCESSABLE_ENTITY);
     }
+  }
+
+  private async checkDeletedUser(email: string) {
+    const deletedUser = await this.userRepository.findOne({ where: { email: hashEmail(email) }, withDeleted: true });
+    return deletedUser;
+  }
+
+  private async restoreUser(email: string, deletedUser: User) {
+    const restoredUser = await this.userRepository.save({
+      ...deletedUser,
+      email,
+      deletedAt: undefined,
+    });
+    return restoredUser.toDTO();
+  }
+
+  private async createNewUser(email: string) {
     const user = new User();
     user.email = email;
     user.changeEvents = [];
-    return this.userRepository.save(user);
-  }
-
-  async softDeleteUser(id: string): Promise<string> {
-    await this.userRepository.update(id, {
-      email: "",
-      deletedAt: new Date(),
-    });
-    return id;
+    const insertedUser = await this.userRepository.save(user);
+    return insertedUser.toDTO();
   }
 }
