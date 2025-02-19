@@ -16,6 +16,6 @@ export class User {
   changeEvents: ChangeEvent[];
 }
 
-export class CreateUserDto {
+export interface CreateUserDto {
   email: string;
 }
