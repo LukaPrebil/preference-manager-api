@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from "@nestjs/common";
-import { ChangeEventService } from "./changeEvent.service";
 import { CreateChangeEventDto } from "./ChangeEvent.entity";
+import { ChangeEventService } from "./changeEvent.service";
 
 @Controller("change-events")
 export class ChangeEventController {

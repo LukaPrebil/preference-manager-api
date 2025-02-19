@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { ChangeEvent, ChangeEventType } from "./ChangeEvent.entity";
-import { In, Repository } from "typeorm";
 import { User } from "src/users/User.entity";
+import { In, Repository } from "typeorm";
+import { ChangeEvent, ChangeEventType } from "./ChangeEvent.entity";
 
 @Injectable()
 export class ChangeEventService {
@@ -23,12 +23,12 @@ export class ChangeEventService {
     if (!userExists) {
       throw new HttpException(`User with id ${userId} does not exist`, HttpStatus.NOT_FOUND);
     }
-    
+
     const changeEvent = new ChangeEvent();
     changeEvent.user = { id: userId } as User;
     changeEvent.event_type = eventType;
     changeEvent.payload = payload;
-    
+
     return this.changeEventRepo.save(changeEvent);
   }
 
