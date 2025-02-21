@@ -1,13 +1,13 @@
 import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments, validateSync } from "class-validator";
 import { plainToInstance } from "class-transformer";
-import { PayloadsByEventType, ChangeEventType } from "./payload.dto";
+import { PayloadsByEventType, ChangeEventType, NotificationConsentChangeEventPayload, PayloadBase } from "./payload.dto";
 import { CreateChangeEventDto } from "./createEvent.dto";
 
 @ValidatorConstraint({ name: "ValidatePayloadByEventType" })
 export class ValidatePayloadByEventType implements ValidatorConstraintInterface {
   private lastErrors: string[] = [];
 
-  validate(payload: (typeof PayloadsByEventType)[keyof typeof ChangeEventType], args: ValidationArguments) {
+  validate(payload: InstanceType<(typeof PayloadsByEventType)[keyof typeof ChangeEventType]>, args: ValidationArguments) {
     const dtoInstance = args.object as CreateChangeEventDto;
     if (!dtoInstance.eventType || !payload) return false;
 
@@ -17,7 +17,17 @@ export class ValidatePayloadByEventType implements ValidatorConstraintInterface 
       this.lastErrors = [`Invalid eventType ${dtoInstance.eventType}`];
       return false;
     }
-    const payloadInstance = plainToInstance(PayloadClass, payload, { enableImplicitConversion: true }); // Create instance of payload class with data from the input
+    let payloadInstance: PayloadBase;
+    switch (dtoInstance.eventType) {
+      case ChangeEventType.NOTIFICATION_PREFERENCE_CHANGE:
+        payloadInstance = plainToInstance(NotificationConsentChangeEventPayload, payload, { enableImplicitConversion: true });
+        break;
+      // Add new event types here
+      default:
+        this.lastErrors = [`Invalid eventType ${dtoInstance.eventType}`];
+        return false;
+    }
+    // const payloadInstance = plainToInstance(PayloadClass, payload, { enableImplicitConversion: true }); // Create instance of payload class with data from the input
     const errors = validateSync(payloadInstance, {
       enableDebugMessages: true,
       whitelist: true,

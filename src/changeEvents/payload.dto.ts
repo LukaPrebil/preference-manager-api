@@ -6,6 +6,7 @@ export type SubscriptionType = "email_notifications" | "sms_notifications";
 
 export const ChangeEventType = {
   NOTIFICATION_PREFERENCE_CHANGE: "NOTIFICATION_PREFERENCE_CHANGE",
+  // Add new event types here
 } as const;
 
 class UserWithId {
@@ -35,9 +36,8 @@ export class NotificationConsentChangeEventPayload extends PayloadBase {
 /**
  * A map of event types to their respective payloads.
  * This is used to validate the payload of a change event based on its type.
- * @example
- * TODO
  */
-export const PayloadsByEventType: Record<keyof typeof ChangeEventType, typeof PayloadBase> = {
+export const PayloadsByEventType = {
   [ChangeEventType.NOTIFICATION_PREFERENCE_CHANGE]: NotificationConsentChangeEventPayload,
+  // Add new payloads here
 } as const;
