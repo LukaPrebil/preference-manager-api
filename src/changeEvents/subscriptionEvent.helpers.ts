@@ -1,4 +1,3 @@
-import { ChangeEvent } from "./ChangeEvent.entity";
 import { ChangeEventType, SubscriptionType } from "./payload.dto";
 
 /**
@@ -8,10 +7,10 @@ import { ChangeEventType, SubscriptionType } from "./payload.dto";
  */
 export type SubscriptionState = { [K in SubscriptionType]: { id: K; enabled: boolean } }[SubscriptionType][];
 
-export type SubscriptionChangeEvent = ChangeEvent & {
+export type SubscriptionChangeEvent = {
   event_type: (typeof ChangeEventType)["NOTIFICATION_PREFERENCE_CHANGE"];
   payload: {
-    consents: Partial<SubscriptionState>;
+    consents: SubscriptionState;
   };
 };
 
@@ -34,7 +33,7 @@ export function mergeSubscriptionConsentChangeEvents(
   );
 
   return [
-    { id: "email_notifications", enabled: reducedChangeEvents.email_notifications },
-    { id: "sms_notifications", enabled: reducedChangeEvents.sms_notifications },
+    { id: "email_notifications", enabled: !!reducedChangeEvents.email_notifications },
+    { id: "sms_notifications", enabled: !!reducedChangeEvents.sms_notifications },
   ];
 }
