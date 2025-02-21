@@ -1,24 +1,14 @@
 import { Body, Controller, Delete, Get, Post, Query } from "@nestjs/common";
-import { IsEmail, IsUUID } from "class-validator";
 import { UserDto } from "./User.entity";
 import { UserService } from "./user.service";
-
-class UserIdParams {
-  @IsUUID()
-  id: string;
-}
-
-class CreateUserDto {
-  @IsEmail()
-  email: string;
-}
+import { CreateUserDto, UserIdParamsDto } from "./user.dto";
 
 @Controller("users")
 export class UsersController {
   constructor(private userService: UserService) {}
 
   @Get()
-  async getUserById(@Query() query: UserIdParams): Promise<UserDto> {
+  async getUserById(@Query() query: UserIdParamsDto): Promise<UserDto> {
     console.log("Getting user with id: ", query.id);
     const user = await this.userService.getUserById(query.id);
     return user;
@@ -31,7 +21,7 @@ export class UsersController {
   }
 
   @Delete()
-  async deleteUser(@Body() body: UserIdParams): Promise<string> {
+  async deleteUser(@Body() body: UserIdParamsDto): Promise<string> {
     console.log("Deleting user with id: ", body.id);
     return await this.userService.softDeleteUser(body.id);
   }
