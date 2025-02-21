@@ -68,10 +68,6 @@ export function hashEmail(email: string) {
   return createHash("sha256").update(email).digest("hex");
 }
 
-export interface CreateUserDto {
-  email: string;
-}
-
 export interface UserDto {
   id: string;
   email: string;
