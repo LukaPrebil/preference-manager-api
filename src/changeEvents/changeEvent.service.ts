@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { User } from "src/users/User.entity";
+import { User } from "../users/User.entity";
 import { Repository } from "typeorm";
 import { ChangeEvent } from "./ChangeEvent.entity";
 import { ChangeEventType, PayloadsByEventType } from "./payload.dto";

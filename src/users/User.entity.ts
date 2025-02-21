@@ -10,7 +10,6 @@ import {
 } from "typeorm";
 import { ChangeEvent } from "../changeEvents/ChangeEvent.entity";
 import {
-  SubscriptionChangeEvent,
   SubscriptionState,
   mergeSubscriptionConsentChangeEvents,
 } from "../changeEvents/subscriptionEvent.helpers";
