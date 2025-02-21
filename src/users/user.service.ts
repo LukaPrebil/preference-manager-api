@@ -26,7 +26,6 @@ export class UserService {
   }
 
   async createUser(email: string): Promise<UserDto> {
-    // TODO DTO
     await this.bailIfUserExists(email);
 
     const deletedUser = await this.checkDeletedUser(email);
