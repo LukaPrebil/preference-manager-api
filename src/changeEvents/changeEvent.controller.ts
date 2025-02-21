@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from "@nestjs/common";
-import { CreateChangeEventDto } from "./ChangeEvent.entity";
 import { ChangeEventService } from "./changeEvent.service";
+import { CreateChangeEventDto } from "./createEvent.dto";
 
 @Controller("events")
 export class ChangeEventController {
@@ -8,6 +8,6 @@ export class ChangeEventController {
 
   @Post()
   async createChangeEvent(@Body() body: CreateChangeEventDto) {
-    return this.changeEventService.insertChangeEvent(body.userId, body.eventType, body.payload);
+    return this.changeEventService.insertChangeEvent(body.payload.user.id, body.eventType, body.payload);
   }
 }

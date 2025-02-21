@@ -1,11 +1,6 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "../users/User.entity";
-
-export const enum ChangeEventType {
-  NOTIFICATION_PREFERENCE_CHANGE = "NOTIFICATION_PREFERENCE_CHANGE",
-}
-
-export type SubscriptionType = "email_notifications" | "sms_notifications";
+import { ChangeEventType, PayloadBase } from "./payload.dto";
 
 @Entity()
 export class ChangeEvent {
@@ -18,18 +13,12 @@ export class ChangeEvent {
   )
   user: User;
 
-  @Column()
-  event_type: ChangeEventType; // This allows us to extend this table to track other events in the future
+  @Column({ type: "enum", enum: typeof ChangeEventType })
+  event_type: keyof typeof ChangeEventType; // This allows us to extend this table to track other events in the future
 
   @Column({ type: "json" })
-  payload: Record<string, unknown>;
+  payload: PayloadBase;
 
   @CreateDateColumn()
   created!: Date;
-}
-
-export interface CreateChangeEventDto {
-  userId: string;
-  eventType: ChangeEventType;
-  payload: Record<string, unknown>;
 }

@@ -1,4 +1,5 @@
-import { ChangeEvent, ChangeEventType, SubscriptionType } from "./ChangeEvent.entity";
+import { ChangeEvent } from "./ChangeEvent.entity";
+import { ChangeEventType, SubscriptionType } from "./payload.dto";
 
 export type SubscriptionChange = {
   email_notifications: boolean;
@@ -6,7 +7,7 @@ export type SubscriptionChange = {
 };
 
 export type SubscriptionChangeEvent = ChangeEvent & {
-  eventType: ChangeEventType.NOTIFICATION_PREFERENCE_CHANGE;
+  eventType: (typeof ChangeEventType)["NOTIFICATION_PREFERENCE_CHANGE"];
   payload: Partial<SubscriptionChange>;
 };
 

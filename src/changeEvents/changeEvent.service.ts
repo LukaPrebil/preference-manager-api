@@ -1,8 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/users/User.entity";
-import { In, Repository } from "typeorm";
-import { ChangeEvent, ChangeEventType } from "./ChangeEvent.entity";
+import { Repository } from "typeorm";
+import { ChangeEvent } from "./ChangeEvent.entity";
+import { PayloadBase, ChangeEventType } from "./payload.dto";
 
 @Injectable()
 export class ChangeEventService {
@@ -15,8 +16,8 @@ export class ChangeEventService {
 
   async insertChangeEvent(
     userId: string,
-    eventType: ChangeEventType,
-    payload: Record<string, unknown>,
+    eventType: keyof typeof ChangeEventType,
+    payload: PayloadBase,
   ): Promise<ChangeEvent> {
     // First make sure we are creating an event for a valid user
     const userExists = await this.userRepo.exists({ where: { id: userId } }); // TODO check soft delete when implemented

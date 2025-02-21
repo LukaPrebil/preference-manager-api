@@ -8,12 +8,13 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { ChangeEvent, ChangeEventType } from "../changeEvents/ChangeEvent.entity";
+import { ChangeEvent } from "../changeEvents/ChangeEvent.entity";
 import {
   SubscriptionChangeEvent,
   SubscriptionState,
   mergeSubscriptionConsentChangeEvents,
 } from "../changeEvents/subscriptionEvent.helpers";
+import { ChangeEventType } from "../changeEvents/payload.dto";
 
 @Entity()
 export class User {
