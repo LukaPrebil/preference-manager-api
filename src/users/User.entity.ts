@@ -52,7 +52,7 @@ export class User {
     return mergeSubscriptionConsentChangeEvents(
       this.changeEvents.filter(
         (changeEvent) => changeEvent.event_type === ChangeEventType.NOTIFICATION_PREFERENCE_CHANGE,
-      ) as SubscriptionChangeEvent[],
+      ),
     );
   }
 
