@@ -6,7 +6,7 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 function setupSwagger(app: INestApplication) {
   const config = new DocumentBuilder()
     .setTitle('Consent management API')
-    .setDescription('The consent management API description')
+    .setDescription('API used to manage user consents for notifications')
     .setVersion('1.0')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);

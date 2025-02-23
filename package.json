@@ -84,6 +84,9 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
-    "setupFiles": ["reflect-metadata", "<rootDir>/../jest-setup.ts"]
+    "setupFiles": [
+      "reflect-metadata",
+      "../test/jest.setup.ts"
+    ]
   }
 }

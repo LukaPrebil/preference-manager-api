@@ -8,10 +8,12 @@ export const connectionConfig: DataSourceOptions = {
   password: process.env.DB_PASSWORD || "postgres",
   database: process.env.DB_NAME || "preferences",
   entities: ["dist/**/*.entity.js"], // Ensure it matches compiled entity paths
-  migrations: ["dist/migrations/*.js"],
+  migrations: ["dist/src/migrations/*.js"],
   synchronize: false, // Never enable this in production
   logging: true,
 };
+
+console.log("Connection config:", connectionConfig);
 
 const dataSource = new DataSource(connectionConfig);
 dataSource
