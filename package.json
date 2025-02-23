@@ -78,7 +78,9 @@
       "/node_modules/",
       "/test/",
       "/src/migrations/",
-      "/src/ormconfig.ts"
+      "/src/ormconfig.ts",
+      "/src/main.ts",
+      ".*\\.module\\.ts"
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
