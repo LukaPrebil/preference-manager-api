@@ -11,18 +11,18 @@ export class UserService {
   ) {}
 
   async getUserById(id: string): Promise<UserDto> {
-    const user = await this.getUser({ id });
+    const user = await this.getUserWithChangeEvents({ id });
 
     return user.toDTO();
   }
 
   async getUserByEmail(email: string): Promise<UserDto> {
-    const user = await this.getUser({ email });
+    const user = await this.getUserWithChangeEvents({ email });
 
     return user.toDTO();
   }
 
-  private async getUser(whereQuery: FindOptionsWhere<User>) {
+  private async getUserWithChangeEvents(whereQuery: FindOptionsWhere<User>) {
     const user = await this.userRepository.findOne({
       where: whereQuery,
       relations: ["changeEvents"],
@@ -57,7 +57,6 @@ export class UserService {
       deletedAt: new Date(),
     });
 
-    console.log("Soft deleted user with id: ", id);
     return id;
   }
 
