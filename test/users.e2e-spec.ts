@@ -22,7 +22,6 @@ describe("UsersController (E2E)", () => {
     await app.init();
 
     dataSource = moduleFixture.get(getDataSourceToken());
-    // await dataSource.synchronize(); // Reset DB schema
   });
 
   beforeEach(async () => {
