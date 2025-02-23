@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Post, Query } from "@nestjs/common";
 import { UserDto } from "./User.entity";
 import { UserService } from "./user.service";
-import { CreateUserDto, UserIdParamsDto } from "./user.dto";
+import { CreateUserDto, UserEmailParamsDto, UserIdParamsDto } from "./user.dto";
 
 @Controller("users")
 export class UsersController {
@@ -11,9 +11,19 @@ export class UsersController {
    * Gets a user by their id.
    * @throws {404} If the user does not exist.
    */
-  @Get()
+  @Get("id")
   async getUserById(@Query() query: UserIdParamsDto): Promise<UserDto> {
     const user = await this.userService.getUserById(query.id);
+    return user;
+  }
+
+  /**
+   * Gets a user by their email.
+   * @throws {404} If the user does not exist.
+   */
+  @Get()
+  async getUserByEmail(@Query() query: UserEmailParamsDto): Promise<UserDto> {
+    const user = await this.userService.getUserByEmail(query.email);
     return user;
   }
 
@@ -25,7 +35,6 @@ export class UsersController {
    */
   @Post()
   async createUser(@Body() createUserDto: CreateUserDto): Promise<UserDto> {
-    console.log("Creating user with email: ", createUserDto.email);
     return await this.userService.createUser(createUserDto.email);
   }
 
@@ -36,7 +45,6 @@ export class UsersController {
    */
   @Delete()
   async deleteUser(@Body() body: UserIdParamsDto): Promise<string> {
-    console.log("Deleting user with id: ", body.id);
     return await this.userService.softDeleteUser(body.id);
   }
 }

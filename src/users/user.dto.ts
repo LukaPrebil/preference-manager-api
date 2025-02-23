@@ -5,6 +5,11 @@ export class UserIdParamsDto {
   id: string;
 }
 
+export class UserEmailParamsDto {
+  @IsEmail()
+  email: string;
+}
+
 export class CreateUserDto {
   @IsEmail()
   email: string;

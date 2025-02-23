@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import type { Repository } from "typeorm";
+import type { FindOptionsWhere, Repository } from "typeorm";
 import { User, UserDto, hashEmail } from "./User.entity";
 
 @Injectable()
@@ -11,10 +11,20 @@ export class UserService {
   ) {}
 
   async getUserById(id: string): Promise<UserDto> {
+    const user = await this.getUser({ id });
+
+    return user.toDTO();
+  }
+
+  async getUserByEmail(email: string): Promise<UserDto> {
+    const user = await this.getUser({ email });
+
+    return user.toDTO();
+  }
+
+  private async getUser(whereQuery: FindOptionsWhere<User>) {
     const user = await this.userRepository.findOne({
-      where: {
-        id,
-      },
+      where: whereQuery,
       relations: ["changeEvents"],
     });
 
@@ -22,8 +32,9 @@ export class UserService {
       throw new HttpException("User not found", HttpStatus.NOT_FOUND);
     }
 
-    return user.toDTO();
+    return user;
   }
+
 
   async createUser(email: string): Promise<UserDto> {
     await this.bailIfUserExists(email);
