@@ -74,6 +74,12 @@
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/",
+      "/src/migrations/",
+      "/src/ormconfig.ts"
+    ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
     "setupFiles": ["reflect-metadata", "<rootDir>/../jest-setup.ts"]
