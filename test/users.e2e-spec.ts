@@ -2,12 +2,16 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { INestApplication, ValidationPipe } from "@nestjs/common";
 import * as request from "supertest";
 import { AppModule } from "../src/app.module";
-import { DataSource } from "typeorm";
-import { getDataSourceToken } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { getRepositoryToken } from "@nestjs/typeorm";
+import { ChangeEvent } from "../src/changeEvents/ChangeEvent.entity";
+import { User } from "../src/users/User.entity";
 
 describe("UsersController (E2E)", () => {
   let app: INestApplication;
-  let dataSource: DataSource;
+  // let dataSource: DataSource;
+  let userRepository: Repository<User>;
+  let changeEventRepository: Repository<ChangeEvent>;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -21,16 +25,13 @@ describe("UsersController (E2E)", () => {
 
     await app.init();
 
-    dataSource = moduleFixture.get(getDataSourceToken());
+    userRepository = moduleFixture.get<Repository<User>>(getRepositoryToken(User));
+    changeEventRepository = moduleFixture.get<Repository<ChangeEvent>>(getRepositoryToken(ChangeEvent));
   });
 
   beforeEach(async () => {
-    // Clean database before each test
-    const entities = dataSource.entityMetadatas;
-    for (const entity of entities) {
-      const repository = dataSource.getRepository(entity.name);
-      await repository.query(`TRUNCATE TABLE "${entity.tableName}" RESTART IDENTITY CASCADE;`);
-    }
+    await changeEventRepository.query(`TRUNCATE TABLE "change_event" RESTART IDENTITY CASCADE;`);
+    await userRepository.query(`TRUNCATE TABLE "user" RESTART IDENTITY CASCADE;`);
   });
 
   afterAll(async () => {
