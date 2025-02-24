@@ -37,6 +37,22 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-lint-test]
 
+    services:
+      database:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: preferences
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U testuser"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=5
+
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -49,15 +65,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Start database (Docker Compose)
-        run: docker-compose up -d
-
-      - name: Wait for PostgreSQL to be ready
-        run: |
-          until docker exec $(docker-compose ps -q postgres) pg_isready -U testuser; do
-            sleep 1;
-          done
 
       - name: Run migrations
         run: npm run migration:up
