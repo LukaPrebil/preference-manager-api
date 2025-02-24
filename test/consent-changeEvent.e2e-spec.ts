@@ -1,12 +1,12 @@
-import { Test, TestingModule } from "@nestjs/testing";
 import { INestApplication } from "@nestjs/common";
-import * as request from "supertest";
-import { AppModule } from "../src/app.module";
+import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
+import * as request from "supertest";
 import { Repository } from "typeorm";
-import { User } from "../src/users/User.entity";
+import { AppModule } from "../src/app.module";
 import { ChangeEvent } from "../src/changeEvents/ChangeEvent.entity";
 import { CreateChangeEventDto } from "../src/changeEvents/createEvent.dto";
+import { User } from "../src/users/User.entity";
 
 describe("ChangeEventController (e2e)", () => {
   let app: INestApplication;

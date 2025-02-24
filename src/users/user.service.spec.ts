@@ -1,9 +1,9 @@
+import { HttpException, HttpStatus } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
-import { UserService } from "./user.service";
+import { getRepositoryToken } from "@nestjs/typeorm";
 import { ObjectLiteral, Repository } from "typeorm";
 import { User } from "./User.entity";
-import { getRepositoryToken } from "@nestjs/typeorm";
-import { HttpException, HttpStatus } from "@nestjs/common";
+import { UserService } from "./user.service";
 
 type MockRepository<T extends ObjectLiteral> = Partial<Record<keyof Repository<T>, jest.Mock>>;
 

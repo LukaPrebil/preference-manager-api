@@ -1,6 +1,6 @@
+import { ChangeEventType } from "./payload.dto";
 import { mergeSubscriptionConsentChangeEvents } from "./subscriptionEvent.helpers";
 import { SubscriptionChangeEvent, SubscriptionState } from "./subscriptionEvent.helpers";
-import { ChangeEventType } from "./payload.dto";
 
 describe("mergeSubscriptionConsentChangeEvents", () => {
   it("should merge a single consent change event", () => {

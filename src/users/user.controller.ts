@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Post, Query } from "@nestjs/common";
 import { UserDto } from "./User.entity";
-import { UserService } from "./user.service";
 import { CreateUserDto, UserEmailParamsDto, UserIdParamsDto } from "./user.dto";
+import { UserService } from "./user.service";
 
 @Controller("users")
 export class UsersController {
@@ -30,7 +30,7 @@ export class UsersController {
   /**
    * Creates a new user with the given email. If the user was previously deleted, they will be restored.
    * The user email must be unique.
-   * 
+   *
    * @throws {422} If the user already exists.
    */
   @Post()
@@ -40,7 +40,7 @@ export class UsersController {
 
   /**
    * Deletes a user by their id.
-   * 
+   *
    * @throws {404} If the user does not exist.
    */
   @Delete()

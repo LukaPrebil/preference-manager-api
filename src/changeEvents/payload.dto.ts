@@ -1,6 +1,6 @@
-import { SubscriptionState } from "./subscriptionEvent.helpers";
-import { IsDefined, IsUUID, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
+import { IsDefined, IsUUID, ValidateNested } from "class-validator";
+import { SubscriptionState } from "./subscriptionEvent.helpers";
 
 export type SubscriptionType = "email_notifications" | "sms_notifications";
 

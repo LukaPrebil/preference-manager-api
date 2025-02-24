@@ -5,9 +5,9 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { ChangeEvent } from "./changeEvents/ChangeEvent.entity";
 import { ChangeEventModule } from "./changeEvents/changeEvent.module";
+import { connectionConfig } from "./connectionConfig";
 import { User } from "./users/User.entity";
 import { UserModule } from "./users/user.module";
-import { connectionConfig } from "./connectionConfig";
 
 @Module({
   imports: [

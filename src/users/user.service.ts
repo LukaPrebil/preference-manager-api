@@ -35,7 +35,6 @@ export class UserService {
     return user;
   }
 
-
   async createUser(email: string): Promise<UserDto> {
     await this.bailIfUserExists(email);
 

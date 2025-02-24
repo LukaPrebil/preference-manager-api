@@ -1,12 +1,8 @@
-import { IsEnum, ValidateNested, Validate } from "class-validator";
-import {
-  PayloadBase,
-  ChangeEventType,
-  PayloadsByEventType,
-} from "./payload.dto";
-import { ValidatePayloadByEventType } from "./payloadValidator";
-import { Type } from "class-transformer";
 import { ApiExtraModels, ApiProperty, getSchemaPath } from "@nestjs/swagger";
+import { Type } from "class-transformer";
+import { IsEnum, Validate, ValidateNested } from "class-validator";
+import { ChangeEventType, PayloadBase, PayloadsByEventType } from "./payload.dto";
+import { ValidatePayloadByEventType } from "./payloadValidator";
 
 @ApiExtraModels(...Object.values(PayloadsByEventType))
 export class CreateChangeEventDto {

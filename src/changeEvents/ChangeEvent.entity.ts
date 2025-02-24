@@ -17,7 +17,7 @@ export class ChangeEvent {
   event_type: keyof typeof ChangeEventType; // This allows us to extend this table to track other events in the future
 
   @Column({ type: "json" })
-  payload: InstanceType<typeof PayloadsByEventType[keyof typeof ChangeEventType]>;
+  payload: InstanceType<(typeof PayloadsByEventType)[keyof typeof ChangeEventType]>;
 
   @CreateDateColumn()
   created!: Date;

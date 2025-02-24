@@ -1,10 +1,10 @@
-import { Test, TestingModule } from "@nestjs/testing";
-import { ChangeEventService } from "./changeEvent.service";
-import { ObjectLiteral, Repository } from "typeorm";
-import { ChangeEvent } from "./ChangeEvent.entity";
-import { User } from "../users/User.entity";
-import { getRepositoryToken } from "@nestjs/typeorm";
 import { HttpException } from "@nestjs/common";
+import { Test, TestingModule } from "@nestjs/testing";
+import { getRepositoryToken } from "@nestjs/typeorm";
+import { ObjectLiteral, Repository } from "typeorm";
+import { User } from "../users/User.entity";
+import { ChangeEvent } from "./ChangeEvent.entity";
+import { ChangeEventService } from "./changeEvent.service";
 
 type MockRepository<T extends ObjectLiteral> = Partial<Record<keyof Repository<T>, jest.Mock>>;
 

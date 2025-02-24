@@ -9,11 +9,8 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { ChangeEvent } from "../changeEvents/ChangeEvent.entity";
-import {
-  SubscriptionState,
-  mergeSubscriptionConsentChangeEvents,
-} from "../changeEvents/subscriptionEvent.helpers";
 import { ChangeEventType } from "../changeEvents/payload.dto";
+import { SubscriptionState, mergeSubscriptionConsentChangeEvents } from "../changeEvents/subscriptionEvent.helpers";
 
 @Entity()
 export class User {

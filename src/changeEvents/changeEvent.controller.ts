@@ -9,7 +9,7 @@ export class ChangeEventController {
   /**
    * Creates a new change event.
    * Currently supports only notification preference change events.
-   * 
+   *
    * @throws {404} If the user does not exist.
    */
   @Post()

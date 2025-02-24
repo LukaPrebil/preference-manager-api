@@ -1,9 +1,9 @@
-import { validateSync, ValidationArguments } from "class-validator";
 import { plainToInstance } from "class-transformer";
+import { ValidationArguments, validateSync } from "class-validator";
 import { CreateChangeEventDto } from "./createEvent.dto";
-import { ValidatePayloadByEventType } from "./payloadValidator";
 import { ChangeEventType } from "./payload.dto";
 import { NotificationConsentChangeEventPayload } from "./payload.dto";
+import { ValidatePayloadByEventType } from "./payloadValidator";
 
 describe("ValidatePayloadByEventType", () => {
   let validator: ValidatePayloadByEventType;
@@ -41,7 +41,7 @@ describe("ValidatePayloadByEventType", () => {
 
     const errors = validateSync(dto);
 
-    expect(errors.length).toBeGreaterThan(0); 
+    expect(errors.length).toBeGreaterThan(0);
     expect(errors[0].constraints?.isEnum).toContain("eventType must be one of the following values:");
   });
 
@@ -55,7 +55,7 @@ describe("ValidatePayloadByEventType", () => {
 
     const errors = validateSync(dto);
 
-    expect(errors.length).toBeGreaterThan(0); 
+    expect(errors.length).toBeGreaterThan(0);
     expect(errors[0].constraints?.ValidatePayloadByEventType).toContain(
       "Invalid payload for eventType NOTIFICATION_PREFERENCE_CHANGE",
     );
@@ -71,7 +71,7 @@ describe("ValidatePayloadByEventType", () => {
 
     const errors = validateSync(dto);
 
-    expect(errors.length).toBeGreaterThan(0); 
+    expect(errors.length).toBeGreaterThan(0);
     expect(errors[0].constraints?.isEnum).toContain("eventType must be one of the following values");
   });
 
@@ -87,7 +87,7 @@ describe("ValidatePayloadByEventType", () => {
       forbidNonWhitelisted: true,
     });
 
-    expect(errors.length).toBeGreaterThan(0); 
+    expect(errors.length).toBeGreaterThan(0);
     const message = validator.defaultMessage({ object: dto } as ValidationArguments);
     expect(message).toContain("Invalid payload for eventType NOTIFICATION_PREFERENCE_CHANGE");
   });

@@ -1,13 +1,21 @@
-import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments, validateSync } from "class-validator";
 import { plainToInstance } from "class-transformer";
-import { PayloadsByEventType, ChangeEventType, NotificationConsentChangeEventPayload, PayloadBase } from "./payload.dto";
+import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface, validateSync } from "class-validator";
 import { CreateChangeEventDto } from "./createEvent.dto";
+import {
+  ChangeEventType,
+  NotificationConsentChangeEventPayload,
+  PayloadBase,
+  PayloadsByEventType,
+} from "./payload.dto";
 
 @ValidatorConstraint({ name: "ValidatePayloadByEventType" })
 export class ValidatePayloadByEventType implements ValidatorConstraintInterface {
   private lastErrors: string[] = [];
 
-  validate(payload: InstanceType<(typeof PayloadsByEventType)[keyof typeof ChangeEventType]>, args: ValidationArguments) {
+  validate(
+    payload: InstanceType<(typeof PayloadsByEventType)[keyof typeof ChangeEventType]>,
+    args: ValidationArguments,
+  ) {
     const dtoInstance = args.object as CreateChangeEventDto;
     if (!dtoInstance.eventType || !payload) return false;
 
@@ -20,7 +28,9 @@ export class ValidatePayloadByEventType implements ValidatorConstraintInterface 
     let payloadInstance: PayloadBase;
     switch (dtoInstance.eventType) {
       case ChangeEventType.NOTIFICATION_PREFERENCE_CHANGE:
-        payloadInstance = plainToInstance(NotificationConsentChangeEventPayload, payload, { enableImplicitConversion: true });
+        payloadInstance = plainToInstance(NotificationConsentChangeEventPayload, payload, {
+          enableImplicitConversion: true,
+        });
         break;
       // Add new event types here
       default:
