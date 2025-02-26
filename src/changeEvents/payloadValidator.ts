@@ -5,6 +5,7 @@ import {
   ChangeEventType,
   NotificationConsentChangeEventPayload,
   PayloadBase,
+  PayloadT,
   PayloadsByEventType,
 } from "./payload.dto";
 
@@ -12,10 +13,7 @@ import {
 export class ValidatePayloadByEventType implements ValidatorConstraintInterface {
   private lastErrors: string[] = [];
 
-  validate(
-    payload: InstanceType<(typeof PayloadsByEventType)[keyof typeof ChangeEventType]>,
-    args: ValidationArguments,
-  ) {
+  validate(payload: PayloadT, args: ValidationArguments) {
     const dtoInstance = args.object as CreateChangeEventDto;
     if (!dtoInstance.eventType || !payload) return false;
 

@@ -41,3 +41,8 @@ export const PayloadsByEventType = {
   [ChangeEventType.NOTIFICATION_PREFERENCE_CHANGE]: NotificationConsentChangeEventPayload,
   // Add new payloads here
 } as const;
+
+/**
+ * A union of all possible payloads for change events.
+ */
+export type PayloadT = InstanceType<(typeof PayloadsByEventType)[keyof typeof ChangeEventType]>;

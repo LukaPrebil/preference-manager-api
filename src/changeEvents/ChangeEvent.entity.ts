@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "../users/User.entity";
-import { ChangeEventType, PayloadBase, PayloadsByEventType } from "./payload.dto";
+import { ChangeEventType, PayloadT } from "./payload.dto";
 
 @Entity()
 export class ChangeEvent {
@@ -17,7 +17,7 @@ export class ChangeEvent {
   event_type: keyof typeof ChangeEventType; // This allows us to extend this table to track other events in the future
 
   @Column({ type: "json" })
-  payload: InstanceType<(typeof PayloadsByEventType)[keyof typeof ChangeEventType]>;
+  payload: PayloadT;
 
   @CreateDateColumn()
   created!: Date;
