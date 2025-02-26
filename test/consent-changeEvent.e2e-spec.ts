@@ -37,7 +37,7 @@ describe("ChangeEventController (e2e)", () => {
   describe("POST /events", () => {
     it("should create a new change event", async () => {
       // Arrange: Create a test user
-      const testUser = userRepository.create({ email: "test@example.com" });
+      const testUser = userRepository.create({ email: "testuser@example.com" });
       await userRepository.save(testUser);
 
       const data: CreateChangeEventDto = {
