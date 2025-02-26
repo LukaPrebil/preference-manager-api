@@ -20,7 +20,7 @@ export class ChangeEventService {
     payload: InstanceType<(typeof PayloadsByEventType)[keyof typeof ChangeEventType]>,
   ): Promise<ChangeEvent> {
     // First make sure we are creating an event for a valid user
-    const userExists = await this.userRepo.exists({ where: { id: userId } }); // TODO check soft delete when implemented
+    const userExists = await this.userRepo.exists({ where: { id: userId, deletedAt: undefined } });
     if (!userExists) {
       throw new HttpException(`User with id ${userId} does not exist`, HttpStatus.NOT_FOUND);
     }
